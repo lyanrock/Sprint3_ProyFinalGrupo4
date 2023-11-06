@@ -19,11 +19,11 @@ public class Usuario {
     @Column
     private long telefono;
     @Column
-    @ManyToOne(fetch = FetchType.LAZY) // Especifica la relación muchos a uno
-    @JoinColumn(name = "empresa_id")
-    private Empresa empresa;
+    private Integer empresa;
     @Column
     private String rol;
+    @Column
+    private boolean estado;
 
     public Integer getId() {
         return id;
@@ -65,11 +65,11 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public Empresa getEmpresa() {
+    public Integer getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Empresa empresa) {
+    public void setEmpresa(Integer empresa) {
         this.empresa = empresa;
     }
 
@@ -79,5 +79,13 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 }

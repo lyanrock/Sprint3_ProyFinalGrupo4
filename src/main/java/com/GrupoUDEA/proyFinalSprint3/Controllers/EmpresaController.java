@@ -3,43 +3,50 @@ package com.GrupoUDEA.proyFinalSprint3.Controllers;
 import com.GrupoUDEA.proyFinalSprint3.Entities.Empresa;
 import com.GrupoUDEA.proyFinalSprint3.Services.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
-@RequestMapping("/empresa")
 @RestController
 public class EmpresaController {
-
     @Autowired
     private EmpresaService empresaService;
 
-    @GetMapping("/consultar")
+    @GetMapping("/consultarempresa")
     public List<Empresa> getEmpresas(){
         return empresaService.getEmpresa();
     }
 
-
-    @GetMapping("/consultar/{id}")
+    @GetMapping("/consultarempresa/{id}")
     public Empresa getEmpresas(@PathVariable Integer id){
         return empresaService.getEmpresa(id);
     }
 
-    @PostMapping("/crear")
-    public List<Empresa> createEmpresa(@RequestBody List<Empresa> empresa){
-        return empresaService.saveEmpresas(empresa);
+    @PostMapping("/crearempresa")
+    public RedirectView createEmpresa(@ModelAttribute Empresa empresa, Model model){
+        model.addAttribute(empresa);
+        empresaService.saveEmpresas(empresa);
+        return new RedirectView("/empresas");
     }
 
-    @PutMapping("/modificar")
-    public Empresa updateEmpresa(@RequestBody Empresa empresa){
-        return empresaService.updateEmpresa(empresa);
+    @PostMapping("/modificarempresa")
+    public RedirectView updateEmpresa(@ModelAttribute Empresa empresa){
+        empresaService.updateEmpresa(empresa);
+        return new RedirectView("/empresas");
+    }
+
+    @DeleteMapping("/eliminarempresa/{id}")
+    public RedirectView deleteEmpresa(@PathVariable Integer id){
+        empresaService.deleteEmpresa(id);
+        return  new RedirectView("/empresas");
+    }
+    @PatchMapping("/empresas/{id}")
+    public RedirectView updateEstado(@PathVariable("id") Integer id){
+        empresaService.estadoEmpresas(id);
+        return new RedirectView("/empresas");
     }
 
 
-
-    @DeleteMapping("/eliminar/{id}")
-    public String deleteEmpresa(@PathVariable Integer id){
-
-        return  empresaService.deleteEmpresa(id);
-    }
 }

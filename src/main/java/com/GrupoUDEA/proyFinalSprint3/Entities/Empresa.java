@@ -18,6 +18,8 @@ public class Empresa {
     private String direccion;
     @Column
     private int telefono;
+    @Column
+    private boolean estado;
 
     public Integer getId() {
         return id;
@@ -57,5 +59,13 @@ public class Empresa {
 
     public void setTelefono(int telefono) {
         this.telefono = telefono;
+    }
+
+   public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 }

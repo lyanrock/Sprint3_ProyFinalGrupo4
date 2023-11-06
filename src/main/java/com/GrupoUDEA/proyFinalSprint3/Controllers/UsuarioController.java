@@ -3,39 +3,51 @@ package com.GrupoUDEA.proyFinalSprint3.Controllers;
 import com.GrupoUDEA.proyFinalSprint3.Entities.Usuario;
 import com.GrupoUDEA.proyFinalSprint3.Services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
-@RequestMapping("/empresa")
+
 @RestController
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/consultar")
+    @GetMapping("/consultarusuario")
     public List<Usuario> getUsuarios(){
-        return usuarioService.getUsuario();
+        return usuarioService.getUsuarios();
     }
 
 
-    @GetMapping("/consultar/{id}")
-    public Usuario getUsuarios(@PathVariable Integer id){
+    @GetMapping("/consultarusuario/{id}")
+    public Usuario getUsuario(@PathVariable Integer id){
         return usuarioService.getUsuario(id);
     }
 
-    @PostMapping("/crear")
-    public List<Usuario> createUsuario(@RequestBody List<Usuario> usuario){
-        return usuarioService.saveUsuario(usuario);
+    @PostMapping("/crearusuario")
+    public RedirectView createUsuario(@ModelAttribute Usuario usuario, Model model){
+        model.addAttribute(usuario);
+        usuarioService.saveUsuario(usuario);
+        return new RedirectView("/usuarios");
     }
 
-    @PutMapping("/modificar")
-    public Usuario updateUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.updateUsuario(usuario);
+    @PostMapping("/modificarusuario")
+    public RedirectView updateUsuario(@ModelAttribute Usuario usuario) {
+        usuarioService.updateUsuario(usuario);
+        return new RedirectView("/usuarios");
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public String deleteUsuario(@PathVariable Integer id){
+    @DeleteMapping("/eliminarusuario/{id}")
+    public RedirectView deleteUsuario(@PathVariable Integer id){
+        usuarioService.deleteUsuario(id);
+        return new RedirectView("/usuarios");
+    }
 
-        return  usuarioService.deleteUsuario(id);
+    @PatchMapping("/usuarios/{id}")
+    public RedirectView updateEstado(@PathVariable("id") Integer id){
+        usuarioService.estadoUsuarios(id);
+        return new RedirectView("/usuarios");
     }
 }
+

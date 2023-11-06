@@ -14,11 +14,11 @@ public class Movimiento {
     @Column
     private String concepto;
     @Column
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id") // Nombre de la columna de la clave foránea en la tabla de usuarios
-    private Usuario usuario;
+    private Integer usuario;
     @Column
     private Date fecha;
+    @Column
+    private boolean estado;
 
     public Integer getId() {
         return id;
@@ -44,11 +44,11 @@ public class Movimiento {
         this.concepto = concepto;
     }
 
-    public Usuario getUsuario() {
+    public Integer getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(Integer usuario) {
         this.usuario = usuario;
     }
 
@@ -58,5 +58,13 @@ public class Movimiento {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 }

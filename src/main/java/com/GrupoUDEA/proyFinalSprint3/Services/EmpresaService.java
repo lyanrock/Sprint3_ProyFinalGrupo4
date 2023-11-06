@@ -19,8 +19,8 @@ public class EmpresaService {
         return empresaRepository.findById(id).orElse(null);
     }
 
-    public List<Empresa> saveEmpresas(List<Empresa> empresa){
-        return empresaRepository.saveAll(empresa);
+    public Empresa saveEmpresas(Empresa empresa){
+        return empresaRepository.save(empresa);
     }
 
     public Empresa updateEmpresa(Empresa empresa){
@@ -29,11 +29,28 @@ public class EmpresaService {
         existeEmpresa.setNit(empresa.getNit());
         existeEmpresa.setDireccion(empresa.getDireccion());
         existeEmpresa.setTelefono(empresa.getTelefono());
+        existeEmpresa.setEstado(empresa.isEstado());
         return empresaRepository.save(existeEmpresa);
     }
     public String deleteEmpresa(Integer id){
         empresaRepository.deleteById(id);
         return "Has Eliminado la empresa ID " + id;
+    }
+
+    public boolean estadoEmpresas(Integer id){
+        Empresa empresa = empresaRepository.findById(id).orElse(null);
+        if(empresa != null){
+            if(empresa.isEstado()){
+                empresa.setEstado(false);
+                empresaRepository.save(empresa);
+                return true;
+            }else{
+                empresa.setEstado(true);
+                empresaRepository.save(empresa);
+                return true;
+            }
+        }
+        return false;
     }
 
 }
